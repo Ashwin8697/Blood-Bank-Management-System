@@ -1,0 +1,59 @@
+-- FUNCTIONS
+-- =========================================
+
+-- 14. Scalar Function
+-- Get Total Units Available By Blood Group
+
+GO
+
+CREATE FUNCTION fn_TotalUnits
+(
+    @BloodGroup VARCHAR(5)
+)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @Total INT
+
+    SELECT @Total = UnitsAvailable
+    FROM BloodInventory
+    WHERE BloodGroup = @BloodGroup
+
+    RETURN @Total
+END;
+
+GO
+
+
+-- Function Output
+SELECT dbo.fn_TotalUnits('A+') AS TotalUnits;
+
+
+-- TABLE VALUED FUNCTION
+-- =========================================
+
+-- 15. Get Donors By City
+
+GO
+
+CREATE FUNCTION fn_DonorsByCity
+(
+    @City VARCHAR(50)
+)
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT DonorName,
+           BloodGroup,
+           Phone
+    FROM Donor
+    WHERE City = @City
+);
+
+GO
+
+
+-- Function Output
+SELECT *
+FROM dbo.fn_DonorsByCity('Patna');

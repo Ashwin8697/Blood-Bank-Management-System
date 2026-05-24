@@ -1,0 +1,43 @@
+-- VIEWS
+-- =========================================
+
+-- 11. Create View For Donor Details
+GO
+
+CREATE VIEW DonorDetailsView
+AS
+SELECT DonorName,
+       BloodGroup,
+       City
+FROM Donor;
+GO
+
+
+-- View Output
+SELECT * 
+FROM DonorDetailsView;
+
+
+-- 12. Create View For Hospital Requests
+GO
+
+CREATE VIEW HospitalRequestView
+AS
+SELECT H.HospitalName,
+       BR.BloodGroup,
+       BR.UnitsRequested,
+       BR.Status
+FROM Hospital H
+INNER JOIN BloodRequest BR
+ON H.HospitalID = BR.HospitalID;
+GO
+
+
+-- View Output
+SELECT * 
+FROM HospitalRequestView;
+
+
+-- 13. Create Index On Blood Group
+CREATE INDEX idx_BloodGroup
+ON Donor(BloodGroup);

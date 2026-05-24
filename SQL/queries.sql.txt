@@ -1,0 +1,76 @@
+
+-- 1. Display All Donors
+SELECT *  
+FROM Donor;
+
+
+-- 2. Display Donors From Patna
+SELECT *  
+FROM Donor
+WHERE City = 'Patna';
+
+
+-- 3. Show Blood Stock Greater Than 5 Units
+SELECT *  
+FROM BloodInventory
+WHERE UnitsAvailable > 5;
+
+-- 4. Display All Blood Requests
+SELECT *  
+FROM BloodRequest;
+
+
+-- 5. INNER JOIN
+-- Display Donor and Donation Details
+SELECT D.DonorName,
+       D.BloodGroup,
+       BD.DonationDate,
+       BD.UnitsDonated
+FROM Donor D
+INNER JOIN BloodDonation BD
+ON D.DonorID = BD.DonorID;
+
+
+-- 6. INNER JOIN
+-- Display Hospital and Blood Request Details
+SELECT H.HospitalName,
+       BR.BloodGroup,
+       BR.UnitsRequested,
+       BR.Status
+FROM Hospital H
+INNER JOIN BloodRequest BR
+ON H.HospitalID = BR.HospitalID;
+
+
+-- 7. GROUP BY
+-- Count Total Donors By Blood Group
+SELECT BloodGroup,
+       COUNT(*) AS TotalDonors
+FROM Donor
+GROUP BY BloodGroup;
+
+
+-- 8. HAVING Clause
+SELECT BloodGroup,
+       COUNT(*) AS TotalDonors
+FROM Donor
+GROUP BY BloodGroup
+HAVING COUNT(*) >= 1;
+
+
+-- 9. Subquery
+-- Find Maximum Blood Units Available
+SELECT *
+FROM BloodInventory
+WHERE UnitsAvailable =
+(
+    SELECT MAX(UnitsAvailable)
+    FROM BloodInventory
+);
+
+
+-- 10. ORDER BY
+-- Sort Donors By Name
+SELECT *
+FROM Donor
+ORDER BY DonorName ASC;

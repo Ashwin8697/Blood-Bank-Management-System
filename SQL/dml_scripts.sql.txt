@@ -1,0 +1,42 @@
+
+INSERT INTO Donor (DonorName, Age, Gender, BloodGroup, Phone, City, LastDonationDate)
+VALUES
+('Rahul Kumar', 24, 'Male', 'A+', '9876543210', 'Patna', '2025-04-10'),
+('Priya Singh', 28, 'Female', 'B+', '9876543211', 'Kolkata', '2025-03-15'),
+('Amit Raj', 32, 'Male', 'O+', '9876543212', 'Ranchi', '2025-02-20'),
+('Sneha Das', 26, 'Female', 'AB+', '9876543213', 'Haldia', '2025-01-05'),
+('Rohit Sharma', 30, 'Male', 'A-', '9876543214', 'Delhi', '2025-05-01');
+
+INSERT INTO Hospital (HospitalName, City, ContactNumber)
+VALUES
+('City Hospital', 'Patna', '9000011111'),
+('Life Care Hospital', 'Kolkata', '9000022222'),
+('Apollo Clinic', 'Ranchi', '9000033333');
+
+INSERT INTO BloodInventory (BloodGroup, UnitsAvailable, ExpiryDate)
+VALUES
+('A+', 10, '2026-01-10'),
+('B+', 8, '2026-01-15'),
+('O+', 12, '2026-02-01'),
+('AB+', 5, '2026-02-10'),
+('A-', 4, '2026-03-01');
+
+INSERT INTO BloodDonation (DonorID, DonationDate, UnitsDonated)
+VALUES
+(1, '2025-04-10', 1),
+(2, '2025-03-15', 1),
+(3, '2025-02-20', 1),
+(4, '2025-01-05', 1),
+(5, '2025-05-01', 1);
+
+INSERT INTO BloodRequest (HospitalID, BloodGroup, UnitsRequested, RequestDate, Status)
+VALUES
+(1, 'A+', 2, '2025-05-10', 'Pending'),
+(2, 'B+', 1, '2025-05-12', 'Approved'),
+(3, 'O+', 3, '2025-05-15', 'Pending');
+
+SELECT * FROM Donor;
+SELECT * FROM Hospital;
+SELECT * FROM BloodInventory;
+SELECT * FROM BloodDonation;
+SELECT * FROM BloodRequest;

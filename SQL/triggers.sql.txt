@@ -1,0 +1,96 @@
+
+-- TRIGGERS
+-- =========================================
+
+-- 16. Trigger After INSERT
+-- Automatically Update Blood Inventory
+
+GO
+
+CREATE TRIGGER trg_UpdateInventory
+ON BloodDonation
+AFTER INSERT
+AS
+BEGIN
+
+    UPDATE BloodInventory
+    SET UnitsAvailable = UnitsAvailable + I.UnitsDonated
+    FROM BloodInventory BI
+    INNER JOIN inserted I
+    ON BI.BloodGroup =
+    (
+        SELECT BloodGroup
+        FROM Donor
+        WHERE DonorID = I.DonorID
+    );
+
+END;
+
+GO
+
+
+-- Trigger Test
+INSERT INTO BloodDonation
+(
+    DonorID,
+    DonationDate,
+    UnitsDonated
+)
+VALUES
+(1, GETDATE(), 1);
+
+
+-- Check Updated Inventory
+SELECT *
+FROM BloodInventory;
+
+
+
+-- =========================================
+-- TCL COMMANDS
+-- =========================================
+
+-- 17. COMMIT Example
+
+BEGIN TRANSACTION
+
+UPDATE BloodInventory
+SET UnitsAvailable = UnitsAvailable - 1
+WHERE BloodGroup = 'A+'
+
+COMMIT TRANSACTION;
+
+
+
+-- 18. ROLLBACK Example
+
+BEGIN TRANSACTION
+
+UPDATE BloodInventory
+SET UnitsAvailable = UnitsAvailable - 5
+WHERE BloodGroup = 'B+'
+
+ROLLBACK TRANSACTION;
+
+
+
+-- Check Inventory
+SELECT *
+FROM BloodInventory;
+
+
+-- =========================================
+-- DCL COMMANDS
+-- =========================================
+
+-- 19. Create User
+CREATE LOGIN BloodUser
+WITH PASSWORD = 'Blood@123';
+
+
+-- 20. Grant Permission
+--GRANT SELECT ON Donor TO BloodUser;
+
+
+-- 21. Revoke Permission
+REVOKE SELECT ON Donor FROM BloodUser;

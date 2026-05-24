@@ -1,0 +1,63 @@
+CREATE DATABASE BloodBankDB;
+GO
+
+USE BloodBankDB;
+GO
+
+
+-- 1. Donor Table
+CREATE TABLE Donor
+(
+    DonorID INT PRIMARY KEY IDENTITY(1,1),
+    DonorName VARCHAR(100) NOT NULL,
+    Age INT CHECK (Age >= 18),
+    Gender VARCHAR(10),
+    BloodGroup VARCHAR(5) NOT NULL,
+    Phone VARCHAR(15) UNIQUE,
+    City VARCHAR(50),
+    LastDonationDate DATE
+);
+
+-- 2. Hospital Table
+CREATE TABLE Hospital
+(
+    HospitalID INT PRIMARY KEY IDENTITY(1,1),
+    HospitalName VARCHAR(100) NOT NULL,
+    City VARCHAR(50),
+    ContactNumber VARCHAR(15)
+);
+
+-- 3. BloodInventory Table
+CREATE TABLE BloodInventory
+(
+    InventoryID INT PRIMARY KEY IDENTITY(1,1),
+    BloodGroup VARCHAR(5) NOT NULL,
+    UnitsAvailable INT CHECK (UnitsAvailable >= 0),
+    ExpiryDate DATE
+);
+
+-- 4. BloodDonation Table
+CREATE TABLE BloodDonation
+(
+    DonationID INT PRIMARY KEY IDENTITY(1,1),
+    DonorID INT,
+    DonationDate DATE,
+    UnitsDonated INT CHECK (UnitsDonated > 0),
+
+    FOREIGN KEY (DonorID)
+    REFERENCES Donor(DonorID)
+);
+
+-- 5. BloodRequest Table
+CREATE TABLE BloodRequest
+(
+    RequestID INT PRIMARY KEY IDENTITY(1,1),
+    HospitalID INT,
+    BloodGroup VARCHAR(5),
+    UnitsRequested INT CHECK (UnitsRequested > 0),
+    RequestDate DATE,
+    Status VARCHAR(20),
+
+    FOREIGN KEY (HospitalID)
+    REFERENCES Hospital(HospitalID)
+);
